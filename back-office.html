@@ -8,6 +8,7 @@
     <title>Back-office</title>
   </head>
   <body>
+    <div id="trasparent" class="d-none"></div>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
@@ -30,42 +31,56 @@
         </div>
       </div>
     </nav>
+    <main>
+      <div id="main-container" class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-7 my-4">
+            <div id="background" class="bg-dark bg-opacity-25 p-4 rounded-3 text-white">
+              <h1 class="display-5 d-inline-block mt-5">Backoffice</h1>
+              <h3 id="subtitle" class="d-inline-block"></h3>
+              <form id="backoffice-form">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Product name</label>
+                  <input type="text" class="form-control" id="name" aria-describedby="name" required />
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea class="form-control" id="description" rows="3" placeholder="Write a short description" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Product brand</label>
+                  <input type="text" class="form-control" id="brand" aria-describedby="brand" required />
+                </div>
+                <div class="mb-3">
+                  <label for="image" class="form-label">URL</label>
+                  <input type="url" class="form-control" id="image" aria-describedby="image" placeholder="Enter image URL" required />
+                </div>
+                <div class="mb-3">
+                  <label for="price" class="form-label">Price</label>
+                  <input type="number" class="form-control" id="price" aria-describedby="price" />
+                </div>
 
-    <div id="main-container" class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6 mt-5">
-          <div class="bg-dark bg-opacity-25 p-4 rounded-3">
-            <h1 class="display-5 d-inline-block mt-5">Backoffice</h1>
-            <h3 id="subtitle" class="d-inline-block"></h3>
-            <form id="backoffice-form">
-              <div class="mb-3">
-                <label for="name" class="form-label">Product name</label>
-                <input type="text" class="form-control" id="name" aria-describedby="name" required />
-              </div>
-              <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" rows="3" placeholder="Write a short description" required></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="name" class="form-label">Product brand</label>
-                <input type="text" class="form-control" id="brand" aria-describedby="brand" required />
-              </div>
-              <div class="mb-3">
-                <label for="image" class="form-label">URL</label>
-                <input type="url" class="form-control" id="image" aria-describedby="image" placeholder="Enter image URL" required />
-              </div>
-              <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control" id="price" aria-describedby="price" />
-              </div>
-
-              <button type="submit" class="btn btn-success">Save</button>
-              <button id="delete-btn" type="button" class="btn btn-danger d-none"><i class="bi bi-trash"></i></button>
-            </form>
+                <div class="d-flex">
+                  <button type="submit" class="btn btn-outline-success">Save</button>
+                  <div class="ms-auto">
+                    <button type="button" id="reset-btn" class="btn btn-secondary d-none"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button type="button" id="delete-btn" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                  </div>
+                </div>
+                <div class="alert alert-danger d-none" id="alert">
+                  <h2><i class="bi bi-exclamation-triangle"></i> Attention</h2>
+                  <p></p>
+                  <div class="d-flex px-3">
+                    <button type="button" id="confirm-btn" class="btn btn-outline-danger">YES</button>
+                    <button type="button" id="canc-btn" class="btn btn-outline-danger ms-auto">NO</button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

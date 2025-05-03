@@ -22,11 +22,13 @@ const fecthProducts = () => {
         col.className = "col-md-4";
         const card = document.createElement("div");
         card.className = "card";
+        const imgCont = document.createElement("div");
+        imgCont.className = "text-center";
         const img = document.createElement("img");
         img.className = "card-img-top";
         img.src = product.imageUrl;
         const cardBody = document.createElement("div");
-        cardBody.className = "card-body";
+        cardBody.classList.add("card-body", "bg-light");
         const h5 = document.createElement("h5");
         h5.className = "card-title";
         h5.innerText = product.name;
@@ -37,27 +39,30 @@ const fecthProducts = () => {
         const cartBtn = document.createElement("a");
         cartBtn.classList.add("cartBtn", "btn", "btn-outline-primary");
         cartBtn.innerText = "Add to cart";
-        const deleteBtn = document.createElement("a");
-        deleteBtn.classList.add("deleteBtn", "btn", "btn-warning", "ms-2");
-        deleteBtn.innerText = "Modifica";
+        const editBtn = document.createElement("a");
+        editBtn.classList.add("editBtn", "btn", "btn-warning", "ms-2");
+        editBtn.innerText = "Edit";
 
         p.appendChild(span);
         cardBody.appendChild(h5);
         cardBody.appendChild(p);
         cardBody.appendChild(cartBtn);
-        cardBody.appendChild(deleteBtn);
-        card.appendChild(img);
+        cardBody.appendChild(editBtn);
+        imgCont.appendChild(img);
+        card.appendChild(imgCont);
         card.appendChild(cardBody);
         col.appendChild(card);
         row.appendChild(col);
+        setInterval(() => {
+          img.style.width = `${(card.offsetWidth / img.naturalHeight) * img.naturalWidth}px`;
+        }, 50);
+
         const allCartBtn = document.querySelectorAll(".cartBtn");
-        const allDeleteBtn = document.querySelectorAll(".deleteBtn");
-        allDeleteBtn.forEach((btn) => {
-          btn.onclick = function (e) {
-            e.preventDefault();
-            window.location.href = `details.html?appId=${product._id}`;
-          };
-        });
+        editBtn.onclick = function (e) {
+          e.preventDefault();
+          window.location.href = `details.html?appId=${product._id}`;
+        };
+
         allCartBtn.forEach((btn) => {
           btn.onclick = function (e) {
             e.preventDefault();
@@ -66,6 +71,7 @@ const fecthProducts = () => {
             const a = document.createElement("a");
             const a1 = document.createElement("a");
             const plus = document.createElement("button");
+            const p = document.createElement("button");
             const minus = document.createElement("button");
             const img = document.createElement("img");
             const btn = document.createElement("button");
@@ -84,11 +90,13 @@ const fecthProducts = () => {
             colValue.className = "col-1";
             col.className = "col-3";
             col1.className = "col-3";
-            col2.className = "col-2";
-            col3.className = "col-3";
+            col2.className = "col-3";
+            col3.className = "col-2";
             btn.classList.add("btn", "btn-danger");
             plus.classList.add("btn", "btn-outline-dark");
+            p.classList.add("btn", "btn-dark");
             minus.classList.add("btn", "btn-outline-dark");
+            p.innerText = `${li.value}`;
             btn.innerHTML = `<i class="bi bi-cart-x"></i>`;
             plus.innerHTML = `<i class="bi bi-arrow-up"></i>`;
             minus.innerHTML = `<i class="bi bi-arrow-down"></i>`;
@@ -96,11 +104,12 @@ const fecthProducts = () => {
             const cardPrice = e.currentTarget.closest(".card-body").querySelector("span");
             const cardImg = e.currentTarget.closest(".card").querySelector("img");
             img.src = cardImg.src;
-            img.style.width = "100%";
+            img.style.height = "100px";
             console.log(cardImg);
             a.innerText = cardTitle.innerText;
             a1.innerText = cardPrice.innerText;
             colValue.appendChild(plus);
+            colValue.appendChild(p);
             colValue.appendChild(minus);
             col.appendChild(img);
             col1.appendChild(a);
@@ -131,11 +140,13 @@ const fecthProducts = () => {
 
             plus.onclick = function () {
               li.value += 1;
+              p.innerText = `${li.value}`;
               tot += parseFloat(cardPrice.innerText);
               h3.innerText = `Total: ${Math.abs(tot).toFixed(2)}$`;
             };
             minus.onclick = function () {
               li.value -= 1;
+              p.innerText = `${li.value}`;
               if (li.value == 0) {
                 li.remove();
               }
@@ -143,7 +154,6 @@ const fecthProducts = () => {
               h3.innerText = `Total: ${Math.abs(tot).toFixed(2)}$`;
             };
             btn.onclick = function (e) {
-              //   e.currentTarget.closest("li").remove();
               li.remove();
               tot -= parseFloat(a1.innerText) * li.value;
               h3.innerText = `Total: ${Math.abs(tot).toFixed(2)}$`;

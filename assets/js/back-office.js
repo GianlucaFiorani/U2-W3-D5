@@ -6,12 +6,19 @@ const method = id ? "PUT" : "POST";
 
 const form = document.getElementById("backoffice-form");
 const delBtn = document.getElementById("delete-btn");
+const confBtn = document.getElementById("confirm-btn");
+const cancBtn = document.getElementById("canc-btn");
+const resetBtn = document.getElementById("reset-btn");
+const confirmAl = document.getElementById("alert");
+const alText = document.querySelector("#alert p");
+const notAlert = document.getElementById("trasparent");
 
 window.onload = function () {
   const subtitle = document.getElementById("subtitle");
   if (id) {
     subtitle.innerText = "- Edit resource";
     delBtn.classList.remove("d-none");
+    resetBtn.classList.remove("d-none");
 
     fetch(URL, {
       headers: {
@@ -82,4 +89,50 @@ form.onsubmit = function (e) {
     .catch((error) => console.log(error));
 
   console.log("SUBMIT", newProduct);
+};
+
+delBtn.onclick = function () {
+  alText.innerText = "Do you want to permanently delete the product?";
+  confirmAl.classList.remove("d-none");
+  notAlert.classList.remove("d-none");
+  confBtn.onclick = function () {
+    fetch(URL, {
+      method: "DELETE",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODE0OGU1YjFjMjUwNDAwMTUxYWI2YTEiLCJpYXQiOjE3NDYxNzc2MjcsImV4cCI6MTc0NzM4NzIyN30.8vC4Lmi_aN0n_Vct-PIwkdaJRbeE-8CaZmD2Y-u5EIc",
+      },
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          alert("hai correttamente eliminato la risorsa");
+          window.location.assign("./index.html");
+        }
+      })
+      .catch((error) => console.log(error));
+    confirmAl.classList.add("d-none");
+    notAlert.classList.add("d-none");
+  };
+};
+cancBtn.onclick = function () {
+  confirmAl.classList.add("d-none");
+  notAlert.classList.add("d-none");
+};
+
+resetBtn.onclick = function () {
+  alText.innerText = "Do you want to reset the form?";
+  confirmAl.classList.remove("d-none");
+  notAlert.classList.remove("d-none");
+  confBtn.onclick = function () {
+    form.reset();
+    confirmAl.classList.add("d-none");
+    notAlert.classList.add("d-none");
+  };
+};
+
+notAlert.onclick = function () {
+  confirmAl.classList.add("shake");
+  setTimeout(() => {
+    confirmAl.classList.remove("shake");
+  }, 300);
 };

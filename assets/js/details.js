@@ -14,9 +14,12 @@ fetch(URL + id, {
     const container = document.getElementById("details");
 
     container.innerHTML = `
-                     <div class="d-flex gap-3">
-                     <img width=150 src="${product.imageUrl}"></img>
-                     <div>
+                     <div class="row gap-3 text-white">
+                     <div class="col" >
+                     <img width=100%
+                      src="${product.imageUrl}"></img>
+                      </div>
+                     <div class="col">
                     <h1>${product.name}</h1>
                     <p class="font-monospace">${product.brand}</p>
                     <p class="lead">${product.description}</p>

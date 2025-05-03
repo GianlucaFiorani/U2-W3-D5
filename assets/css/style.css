@@ -11988,4 +11988,85 @@ li {
 
 .cart {
   margin-bottom: 66px;
+}
+
+main {
+  height: 100vh;
+  padding-block: 1rem;
+  background: #c377d1;
+  background: linear-gradient(90deg, rgb(195, 119, 209) 0%, rgb(9, 9, 121) 35%, rgb(0, 212, 255) 100%);
+}
+
+#subtitle {
+  font-family: cursive;
+}
+
+input[type=text],
+input[type=url],
+input[type=number],
+.form-control {
+  border: 0;
+  background-color: rgba(0, 0, 0, 0.138);
+  color: white;
+}
+
+input[type=text]:focus,
+input[type=url]:focus,
+input[type=number]:focus,
+.form-control:focus {
+  border: 0;
+  background-color: rgba(0, 0, 0, 0.138);
+  color: white;
+}
+
+form {
+  position: relative;
+}
+
+#alert {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+::-webkit-input-placeholder {
+  color: white;
+}
+
+li::marker {
+  content: none;
+}
+
+#trasparent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-color: rgba(68, 68, 68, 0);
+}
+
+.shake {
+  animation: shake 200ms infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
 }/*# sourceMappingURL=style.css.map */
