@@ -1,3 +1,6 @@
+const cartOpener = document.querySelector(".cartOpener");
+const cartCol = document.querySelector(".cartCol");
+
 const URL = "https://striveschool-api.herokuapp.com/api/product/";
 let tot = 0;
 const fecthProducts = () => {
@@ -28,23 +31,27 @@ const fecthProducts = () => {
         img.className = "card-img-top";
         img.src = product.imageUrl;
         const cardBody = document.createElement("div");
-        cardBody.classList.add("card-body", "bg-light");
+        cardBody.classList.add("card-body", "bg-light", "fs-6");
         const h5 = document.createElement("h5");
         h5.className = "card-title";
         h5.innerText = product.name;
         const p = document.createElement("p");
-        p.innerText = "price ";
+        p.className = "font-monospace";
+        p.innerText = "price: ";
+        const description = document.createElement("p");
+        description.innerText = product.description;
         const span = document.createElement("span");
         span.innerText = product.price.toFixed(2) + " $";
         const cartBtn = document.createElement("a");
-        cartBtn.classList.add("cartBtn", "btn", "btn-outline-primary");
+        cartBtn.classList.add("cartBtn", "btn", "btn-outline-primary", "fs-6");
         cartBtn.innerText = "Add to cart";
         const editBtn = document.createElement("a");
-        editBtn.classList.add("editBtn", "btn", "btn-warning", "ms-2");
+        editBtn.classList.add("editBtn", "btn", "btn-warning", "ms-2", "fs-6");
         editBtn.innerText = "Edit";
 
         p.appendChild(span);
         cardBody.appendChild(h5);
+        cardBody.appendChild(description);
         cardBody.appendChild(p);
         cardBody.appendChild(cartBtn);
         cardBody.appendChild(editBtn);
@@ -55,6 +62,11 @@ const fecthProducts = () => {
         row.appendChild(col);
         setInterval(() => {
           img.style.width = `${(card.offsetWidth / img.naturalHeight) * img.naturalWidth}px`;
+          if (window.innerWidth < 991 && !cartCol.classList.contains("d-none")) {
+            row.classList.add("d-none");
+          } else {
+            row.classList.remove("d-none");
+          }
         }, 50);
 
         const allCartBtn = document.querySelectorAll(".cartBtn");
@@ -94,7 +106,8 @@ const fecthProducts = () => {
             col3.className = "col-2";
             btn.classList.add("btn", "btn-danger");
             plus.classList.add("btn", "btn-outline-dark");
-            p.classList.add("btn", "btn-dark");
+            p.classList.add("btn-value", "btn", "btn-dark");
+            p.style.width = "42px";
             minus.classList.add("btn", "btn-outline-dark");
             p.innerText = `${li.value}`;
             btn.innerHTML = `<i class="bi bi-cart-x"></i>`;
@@ -105,7 +118,6 @@ const fecthProducts = () => {
             const cardImg = e.currentTarget.closest(".card").querySelector("img");
             img.src = cardImg.src;
             img.style.height = "100px";
-            console.log(cardImg);
             a.innerText = cardTitle.innerText;
             a1.innerText = cardPrice.innerText;
             colValue.appendChild(plus);
@@ -123,19 +135,17 @@ const fecthProducts = () => {
             row.appendChild(col2);
             row.appendChild(col3);
             li.appendChild(row);
-            console.log(allLi);
 
             ul.appendChild(li);
 
             allLi.forEach((el) => {
               const titleNow = el.querySelector("a");
-              console.log(titleNow);
               if (titleNow.innerText === a.innerText) {
                 el.value += 1;
+                const p = el.querySelector(".btn-value");
+                p.innerText = `${el.value}`;
                 li.remove();
               }
-
-              //   console.log(a);
             });
 
             plus.onclick = function () {
@@ -164,11 +174,16 @@ const fecthProducts = () => {
     })
     .catch((error) => console.log(error));
 };
-const cartOpener = document.querySelector(".cartOpener");
-const cartCol = document.querySelector(".cartCol");
+
 cartOpener.onclick = function (e) {
   const container = document.querySelector(".container");
+  const row = document.querySelector(".productGrid");
   cartCol.classList.toggle("d-none");
+  if (window.innerWidth < 991) {
+    row.classList.toggle("d-none");
+  } else {
+    row.classList.remove("d-none");
+  }
   container.classList.toggle("me-0");
 };
 

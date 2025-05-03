@@ -1,6 +1,8 @@
 const params = new URLSearchParams(window.location.search);
-const id = params.get("appId");
-console.log("ID", id);
+let id = params.get("appId");
+let lastId = localStorage.getItem("lastId");
+
+console.log(lastId);
 const URL = id ? "https://striveschool-api.herokuapp.com/api/product/" + id : "https://striveschool-api.herokuapp.com/api/product/";
 const method = id ? "PUT" : "POST";
 
@@ -10,15 +12,20 @@ const confBtn = document.getElementById("confirm-btn");
 const cancBtn = document.getElementById("canc-btn");
 const resetBtn = document.getElementById("reset-btn");
 const confirmAl = document.getElementById("alert");
+const divBtn = document.getElementById("btn-div");
 const alText = document.querySelector("#alert p");
 const notAlert = document.getElementById("trasparent");
+const idInput = document.getElementById("idInput");
+const drop = document.querySelector(".dropdown-item");
 
-window.onload = function () {
+const fetchChange = function () {
   const subtitle = document.getElementById("subtitle");
   if (id) {
     subtitle.innerText = "- Edit resource";
-    delBtn.classList.remove("d-none");
-    resetBtn.classList.remove("d-none");
+    drop.innerText = "— Create resource";
+    idInput.value = id;
+    divBtn.classList.remove("d-none");
+    const saveId = localStorage.setItem("lastId", id);
 
     fetch(URL, {
       headers: {
@@ -43,6 +50,18 @@ window.onload = function () {
       .catch((error) => console.log(error));
   } else {
     subtitle.innerText = "— Create resource";
+    drop.innerText = "- Edit resource";
+  }
+};
+
+drop.onclick = function (e) {
+  e.preventDefault();
+  if (subtitle.innerText === "— Create resource") {
+    drop.innerText = "— Create resource";
+    window.location.assign("back-office.html?appId=" + lastId);
+  } else {
+    drop.innerText = "- Edit resource";
+    window.location.assign("back-office.html?");
   }
 };
 
@@ -53,6 +72,7 @@ form.onsubmit = function (e) {
   const brandInput = document.getElementById("brand");
   const imageInput = document.getElementById("image");
   const priceInput = document.getElementById("price");
+  id = idInput.value;
 
   const newProduct = {
     name: nameInput.value,
@@ -88,6 +108,7 @@ form.onsubmit = function (e) {
     })
     .catch((error) => console.log(error));
 
+  window.location.assign("back-office.html?appId=" + id);
   console.log("SUBMIT", newProduct);
 };
 
@@ -135,4 +156,8 @@ notAlert.onclick = function () {
   setTimeout(() => {
     confirmAl.classList.remove("shake");
   }, 300);
+};
+
+window.onload = function () {
+  fetchChange();
 };

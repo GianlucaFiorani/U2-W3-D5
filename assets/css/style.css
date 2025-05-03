@@ -11991,14 +11991,14 @@ li {
 }
 
 main {
-  height: 100vh;
-  padding-block: 1rem;
+  height: 100%;
   background: #c377d1;
   background: linear-gradient(90deg, rgb(195, 119, 209) 0%, rgb(9, 9, 121) 35%, rgb(0, 212, 255) 100%);
 }
 
 #subtitle {
   font-family: cursive;
+  background-color: rgba(128, 128, 128, 0.291);
 }
 
 input[type=text],
@@ -12017,6 +12017,22 @@ input[type=number]:focus,
   border: 0;
   background-color: rgba(0, 0, 0, 0.138);
   color: white;
+}
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.138) !important;
+}
+
+#idInput {
+  position: absolute;
+  width: 45%;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#idInput:hover {
+  background-color: rgba(0, 0, 0, 0.138);
 }
 
 form {
