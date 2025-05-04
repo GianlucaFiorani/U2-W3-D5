@@ -23,7 +23,7 @@ fetch(URL + id, {
                     <h1>${product.name}</h1>
                     <p class="font-monospace">${product.brand}</p>
                     <p class="lead">${product.description}</p>
-                    <p class="fs-3 text-withe">${product.price + "€"}</p>
+                    <p class="fs-3 text-${product.price ? "primary" : "success"}">${product.price ? product.price + "€" : "gratis"}</p>
 
                     <button class="btn btn-warning" onclick="handlePageChange()">Edit Product</button>
                     </div>

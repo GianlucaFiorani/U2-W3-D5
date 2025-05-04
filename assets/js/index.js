@@ -1,5 +1,16 @@
 const cartOpener = document.querySelector(".cartOpener");
 const cartCol = document.querySelector(".cartCol");
+const follow = document.getElementById("follow");
+const body = document.querySelector("body");
+let sum = 0;
+
+body.onpointermove = function (e) {
+  console.log(e.clientX);
+  follow.style.left = `${e.clientX}px`;
+  follow.style.top = `${e.clientY}px`;
+  follow.style.left = `${e.pageX}px`;
+  follow.style.top = `${e.pageY}px`;
+};
 
 const URL = "https://striveschool-api.herokuapp.com/api/product/";
 let tot = 0;
@@ -61,7 +72,7 @@ const fecthProducts = () => {
         col.appendChild(card);
         row.appendChild(col);
         setInterval(() => {
-          img.style.width = `${(card.offsetWidth / img.naturalHeight) * img.naturalWidth}px`;
+          img.style.width = `${((card.offsetWidth - 100) / img.naturalHeight) * img.naturalWidth}px`;
           if (window.innerWidth < 991 && !cartCol.classList.contains("d-none")) {
             row.classList.add("d-none");
           } else {
@@ -69,8 +80,21 @@ const fecthProducts = () => {
           }
         }, 50);
 
+        editBtn.onclick = function () {
+          window.location.assign("back-office.html?appId=" + product._id);
+        };
+
         const allCartBtn = document.querySelectorAll(".cartBtn");
-        editBtn.onclick = function (e) {
+
+        imgCont.onmouseover = function (e) {
+          follow.style.opacity = "100%";
+        };
+
+        imgCont.onmouseout = function (e) {
+          follow.style.opacity = "0";
+        };
+
+        imgCont.onclick = function (e) {
           e.preventDefault();
           window.location.href = `details.html?appId=${product._id}`;
         };
@@ -78,6 +102,7 @@ const fecthProducts = () => {
         allCartBtn.forEach((btn) => {
           btn.onclick = function (e) {
             e.preventDefault();
+            const pill = document.querySelector(".badge");
             const ul = document.querySelector(".cart");
             const li = document.createElement("li");
             const a = document.createElement("a");
@@ -104,6 +129,7 @@ const fecthProducts = () => {
             col1.className = "col-3";
             col2.className = "col-3";
             col3.className = "col-2";
+            colValue.style.zIndex = 1;
             btn.classList.add("btn", "btn-danger");
             plus.classList.add("btn", "btn-outline-dark");
             p.classList.add("btn-value", "btn", "btn-dark");
@@ -137,6 +163,14 @@ const fecthProducts = () => {
             li.appendChild(row);
 
             ul.appendChild(li);
+            console.log(li.value);
+            sum += li.value;
+            pill.innerText = sum;
+            console.log(sum);
+
+            if (cartCol.classList.contains("d-none")) {
+              pill.classList.remove("d-none");
+            }
 
             allLi.forEach((el) => {
               const titleNow = el.querySelector("a");
@@ -149,12 +183,16 @@ const fecthProducts = () => {
             });
 
             plus.onclick = function () {
+              sum += 1;
+              pill.innerText = sum;
               li.value += 1;
               p.innerText = `${li.value}`;
               tot += parseFloat(cardPrice.innerText);
               h3.innerText = `Total: ${Math.abs(tot).toFixed(2)}$`;
             };
             minus.onclick = function () {
+              sum -= 1;
+              pill.innerText = sum;
               li.value -= 1;
               p.innerText = `${li.value}`;
               if (li.value == 0) {
@@ -165,6 +203,8 @@ const fecthProducts = () => {
             };
             btn.onclick = function (e) {
               li.remove();
+              sum -= li.value;
+              pill.innerText = sum;
               tot -= parseFloat(a1.innerText) * li.value;
               h3.innerText = `Total: ${Math.abs(tot).toFixed(2)}$`;
             };
@@ -176,9 +216,18 @@ const fecthProducts = () => {
 };
 
 cartOpener.onclick = function (e) {
+  const pill = document.querySelector(".badge");
   const container = document.querySelector(".container");
   const row = document.querySelector(".productGrid");
   cartCol.classList.toggle("d-none");
+
+  if (sum === 0) {
+    pill.classList.add("d-none");
+    pill.innerText = sum;
+  } else {
+    pill.classList.toggle("d-none");
+  }
+
   if (window.innerWidth < 991) {
     row.classList.toggle("d-none");
   } else {
