@@ -8,7 +8,7 @@
     <title>Homepage</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+    <nav id="index-nav" class="navbar navbar-expand-lg bg-body-tertiary sticky-top py-2">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
         <button
@@ -28,13 +28,15 @@
             <a class="nav-link" href="back-office.html">Backoffice</a>
           </div>
           <div class="ms-auto">
-            <button class="cartOpener btn btn-secondary px-3" type="button">
+            <button type="button" class="cartOpener btn btn-secondary position-relative px-3 me-2">
               <i class="bi bi-cart4"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">1</span>
             </button>
           </div>
         </div>
       </div>
     </nav>
+    <div id="follow">learn more</div>
     <div class="container">
       <div class="row">
         <div class="col">
