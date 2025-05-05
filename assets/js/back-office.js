@@ -1,5 +1,5 @@
 const params = new URLSearchParams(window.location.search);
-let id = params.get("appId");
+const id = params.get("appId");
 let lastId = localStorage.getItem("lastId");
 
 console.log(lastId);
@@ -17,6 +17,8 @@ const alText = document.querySelector("#alert p");
 const notAlert = document.getElementById("trasparent");
 const idInput = document.getElementById("idInput");
 const drop = document.querySelector(".dropdown-item");
+const formID = document.getElementById("form-id");
+const sucessText = document.getElementById("modify-msg");
 
 const fetchChange = function () {
   const subtitle = document.getElementById("subtitle");
@@ -24,6 +26,7 @@ const fetchChange = function () {
     subtitle.innerText = "- Edit resource";
     drop.innerText = "— Create resource";
     idInput.value = id;
+    idInput.classList.remove("d-none");
     divBtn.classList.remove("d-none");
     const saveId = localStorage.setItem("lastId", id);
 
@@ -57,10 +60,10 @@ const fetchChange = function () {
 drop.onclick = function (e) {
   e.preventDefault();
   if (subtitle.innerText === "— Create resource") {
-    drop.innerText = "— Create resource";
+    // drop.innerText = "— Create resource";
     window.location.assign("back-office.html?appId=" + lastId);
   } else {
-    drop.innerText = "- Edit resource";
+    // drop.innerText = "- Edit resource";
     window.location.assign("back-office.html?");
   }
 };
@@ -72,7 +75,6 @@ form.onsubmit = function (e) {
   const brandInput = document.getElementById("brand");
   const imageInput = document.getElementById("image");
   const priceInput = document.getElementById("price");
-  id = idInput.value;
 
   const newProduct = {
     name: nameInput.value,
@@ -92,6 +94,8 @@ form.onsubmit = function (e) {
     },
   })
     .then((resp) => {
+      sucessText.classList.remove("d-none");
+
       console.log(resp);
       if (!resp.ok) {
         throw new Error("Fetch error");
@@ -100,15 +104,22 @@ form.onsubmit = function (e) {
     })
     .then((createProduct) => {
       if (id) {
-        alert(createProduct.name + " has been modified");
+        sucessText.innerHTML = `<i class="bi bi-check"></i>modify`;
+        sucessText.classList.remove("text-danger");
       } else {
-        alert("Product with id " + createProduct._id + " was created");
+        sucessText.innerHTML = `<i class="bi bi-check"></i>created`;
+        sucessText.classList.remove("text-danger");
+
         form.reset();
       }
     })
     .catch((error) => console.log(error));
 
-  window.location.assign("back-office.html?appId=" + id);
+  setTimeout(() => {
+    sucessText.classList.add("d-none");
+    sucessText.classList.add("text-danger");
+    sucessText.innerHTML = `<i class="bi bi-exclamation-circle-fill"></i> Error`;
+  }, 4000);
   console.log("SUBMIT", newProduct);
 };
 
@@ -126,7 +137,6 @@ delBtn.onclick = function () {
     })
       .then((resp) => {
         if (resp.ok) {
-          alert("hai correttamente eliminato la risorsa");
           window.location.assign("./index.html");
         }
       })
@@ -156,6 +166,11 @@ notAlert.onclick = function () {
   setTimeout(() => {
     confirmAl.classList.remove("shake");
   }, 300);
+};
+
+formID.onsubmit = function (e) {
+  e.preventDefault();
+  window.location.assign("back-office.html?appId=" + idInput.value);
 };
 
 window.onload = function () {

@@ -1,3 +1,4 @@
+const main = document.querySelector("main");
 const params = new URLSearchParams(window.location.search);
 const id = params.get("appId");
 
@@ -23,12 +24,15 @@ fetch(URL + id, {
                     <h1>${product.name}</h1>
                     <p class="font-monospace">${product.brand}</p>
                     <p class="lead">${product.description}</p>
-                    <p class="fs-3 text-withe">${product.price + "€"}</p>
+                    <p class="fs-3 text-white">${product.price + "€"}</p>
 
                     <button class="btn btn-warning" onclick="handlePageChange()">Edit Product</button>
                     </div>
                     </div>
     `;
+    if (main.offsetHeight < window.innerHeight) {
+      main.style.height = "100vh";
+    }
   })
   .catch((error) => console.log(error));
 
